@@ -1,0 +1,247 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces">
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+  <af:componentDef var="attrs" componentVar="component">
+    <dvt:comboGraph id="comboGraph1" value="#{attrs.graphModel}" subType="COMBINATION_VERT_ABS" customLayout="CL_NONE" shortDesc="Gráfico combinado"
+                    dynamicResize="DYNAMIC_SIZE" seriesRolloverBehavior="RB_HIGHLIGHT" hideAndShowBehavior="withoutRescale"
+                    binding="#{CompDecGraficoBean.comboGraph}" partialTriggers="#{attrs.partialTriggersComp}" inlineStyle="#{attrs.inLineStyleComp}">
+      <dvt:background>
+        <dvt:specialEffects/>
+      </dvt:background>
+      <dvt:graphPlotArea/>
+      <dvt:seriesSet>
+        <dvt:series/>
+      </dvt:seriesSet>
+      <dvt:o1Axis/>
+      <dvt:y1Axis/>
+      <dvt:legendArea automaticPlacement="AP_NEVER" position="LAP_BOTTOM"/>
+      <dvt:graphTitle horizontalAlignment="CENTER" text="#{attrs.titulo}">
+        <dvt:graphFont id="graphFont1" bold="true" color="#ff0000"/>
+      </dvt:graphTitle>
+      <dvt:graphSubtitle horizontalAlignment="CENTER" text="#{attrs.subtitulo}">
+        <dvt:graphFont id="graphFont2" bold="true"/>
+      </dvt:graphSubtitle>
+      <dvt:graphFootnote text="#{attrs.textoPie}"/>
+      <dvt:markerText rendered="#{attrs.renderMarkerText}" markerTextPlace="#{attrs.markerTextPlaceComp}">
+        <dvt:graphFont size="#{attrs.sizeMarkerText}"/>
+        <dvt:x1Format id="x1Format1" scaling="#{attrs.scalingType}" autoPrecision="#{attrs.autoPrecisionType}"/>
+        <dvt:y1Format id="y1Format1" scaling="#{attrs.scalingType}" autoPrecision="#{attrs.autoPrecisionType}">
+          <af:convertNumber type="#{attrs.convNumberTypeY1}" currencyCode="#{attrs.convNumberCurrencyCodeY1}" currencySymbol=""
+                            maxFractionDigits="#{attrs.maxFractionDigitsY1}"/>
+        </dvt:y1Format>
+        <dvt:y2Format id="y2Format1" scaling="#{attrs.scalingType}" autoPrecision="#{attrs.autoPrecisionType}">
+          <af:convertNumber type="#{attrs.convNumberTypeY2}" currencyCode="#{attrs.convNumberCurrencyCodeY2}" currencySymbol=""
+                            maxFractionDigits="#{attrs.maxFractionDigitsY2}"/>
+        </dvt:y2Format>
+        <dvt:zFormat id="zFormat1" scaling="#{attrs.scalingType}" autoPrecision="#{attrs.autoPrecisionType}"/>
+      </dvt:markerText>
+      <dvt:y1TickLabel id="y1TickLabel1" scaling="#{attrs.scalingType}" autoPrecision="#{attrs.autoPrecisionType}">
+        <af:convertNumber type="#{attrs.convNumberTypeY1}" currencyCode="#{attrs.convNumberCurrencyCodeY1}" currencySymbol="#{attrs.convNumberCurrencySymbolY1}"
+                          maxFractionDigits="#{attrs.maxFractionDigitsY1}"/>
+      </dvt:y1TickLabel>
+      <dvt:y2TickLabel id="y2TickLabel1" scaling="#{attrs.scalingType}" autoPrecision="#{attrs.autoPrecisionType}">
+        <af:convertNumber type="#{attrs.convNumberTypeY2}" currencyCode="#{attrs.convNumberCurrencyCodeY2}" currencySymbol="#{attrs.convNumberCurrencySymbolY2}"
+                          maxFractionDigits="#{attrs.maxFractionDigitsY2}"/>
+      </dvt:y2TickLabel>
+      <!--<dvt:referenceObjectSet referenceObjectMap="#{attrs.referenceObjectMap}"/>-->
+    </dvt:comboGraph>
+    <af:commandButton text="Exportar a #{attrs.formatoSalida == 0 ? 'PDF' : 'PNG'}" id="dc_cb1" partialSubmit="true" visible="#{attrs.mostrarImprimir}"
+                      rendered="#{attrs.descargaDirecta}">
+      <af:fileDownloadActionListener contentType="#{attrs.formatoSalida == 0 ? 'application/pdf' : 'image/png'}" filename="#{attrs.fileName}"
+                                     method="#{CompDecGraficoBean.exportFileAction}"/>
+    </af:commandButton>
+    <af:commandButton text="Generar #{attrs.formatoSalida == 0 ? 'PDF' : 'PNG'}" id="dc_cb2" partialSubmit="true" visible="#{attrs.mostrarImprimir}"
+                      action="#{CompDecGraficoBean.generateFileAction}" rendered="#{!attrs.descargaDirecta}"/>
+    <af:xmlContent>
+      <component xmlns="http://xmlns.oracle.com/adf/faces/rich/component">
+        <display-name>CompDecGrafico</display-name>
+        <attribute>
+          <attribute-name>graphModel</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <attribute-name>titulo</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <attribute-name>subtitulo</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <attribute-name>sentidoMejor</attribute-name>
+          <attribute-class>java.lang.Integer</attribute-class>
+        </attribute>
+        <attribute>
+          <attribute-name>textoPie</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica el array de texto de los markers.</description>
+          <attribute-name>arrayTextoMarkers</attribute-name>
+          <attribute-class>oracle.jbo.domain.Array</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica el array de valores de los markers. Establecerá el número de markers a mostrar.</description>
+          <attribute-name>arrayValorMarkers</attribute-name>
+          <attribute-class>oracle.jbo.domain.Array</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica el array de colores de los markers.</description>
+          <attribute-name>arrayColorMarkers</attribute-name>
+          <attribute-class>oracle.jbo.domain.Array</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica el array de si se muestran o no en la leyenda los markers. Si no se especifica y tiene texto se mostrará.</description>
+          <attribute-name>arrayDisplayMarkers</attribute-name>
+          <attribute-class>oracle.jbo.domain.Array</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica si se muestran o no una anotación para cada valor. Por defecto no</description>
+          <attribute-name>mostrarValores</attribute-name>
+          <attribute-class>java.lang.Boolean</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece los Partial Trigger para el componente declarativo.</description>
+          <attribute-name>partialTriggersComp</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el inline style del componente declarativo.</description>
+          <attribute-name>inLineStyleComp</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece si se muestra el texto de marker.</description>
+          <attribute-name>renderMarkerText</attribute-name>
+          <attribute-class>java.lang.Boolean</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece dónde se muestra el texto de marker con respecto al marker.</description>
+          <attribute-name>markerTextPlaceComp</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el tamaño del texto del marker.</description>
+          <attribute-name>sizeMarkerText</attribute-name>
+          <attribute-class>java.lang.Integer</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece la escala para las etiquetas.</description>
+          <attribute-name>scalingType</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece la precisión para las etiquetas.</description>
+          <attribute-name>autoPrecisionType</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el tipo del conversor de número para Y1.</description>
+          <attribute-name>convNumberTypeY1</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el número máximo de decimales para Y1.</description>
+          <attribute-name>maxFractionDigitsY1</attribute-name>
+          <attribute-class>java.lang.Integer</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el código de moneda para el conversor de número de Y1.</description>
+          <attribute-name>convNumberCurrencyCodeY1</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el símbolo de moneda para el conversor de número de Y1 (si no se ha especificado convNumberCurrencyCodeY1).</description>
+          <attribute-name>convNumberCurrencySymbolY1</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el tipo del conversor de número para Y2.</description>
+          <attribute-name>convNumberTypeY2</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el número máximo de decimales para Y2.</description>
+          <attribute-name>maxFractionDigitsY2</attribute-name>
+          <attribute-class>java.lang.Integer</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el código de moneda para el conversor de número de Y2.</description>
+          <attribute-name>convNumberCurrencyCodeY2</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el símbolo de moneda para el conversor de número de Y2 (si no se ha especificado convNumberCurrencyCodeY2).</description>
+          <attribute-name>convNumberCurrencySymbolY2</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece si se muestra o no el botón de impresión.</description>
+          <attribute-name>mostrarImprimir</attribute-name>
+          <attribute-class>java.lang.Boolean</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el ancho del gráfico para la impresión.</description>
+          <attribute-name>printWidth</attribute-name>
+          <attribute-class>java.lang.Integer</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el alto del gráfico para la impresión.</description>
+          <attribute-name>printHeight</attribute-name>
+          <attribute-class>java.lang.Integer</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece la ruta de destino de la impresión.</description>
+          <attribute-name>printRutaDestino</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece la ruta de acceso al fichero XLS (formato del PDF).</description>
+          <attribute-name>rutaFicheroXSL</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el texto a mostrar en la esquina superior izquierda en la exportación a PDF.</description>
+          <attribute-name>textoEsquinaSupIzq</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el texto a mostrar en la esquina superior derecha en la exportación a PDF.</description>
+          <attribute-name>textoEsquinaSupDer</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el texto a mostrar en la esquina inferior izquierda en la exportación a PDF.</description>
+          <attribute-name>textoEsquinaInfIzq</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el texto a mostrar en la esquina inferior derecha en la exportación a PDF.</description>
+          <attribute-name>textoEsquinaInfDer</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el nombre por defecto del fichero PDF a descargar.</description>
+          <attribute-name>fileName</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Establece el formato de exportación del fichero (0=PNG, 1=PDF).</description>
+          <attribute-name>formatoSalida</attribute-name>
+          <attribute-class>java.lang.Integer</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica si la exportación del fichero supondrá descarga (y borrado en el servidor) o no.</description>
+          <attribute-name>descargaDirecta</attribute-name>
+          <attribute-class>java.lang.Boolean</attribute-class>
+        </attribute>
+        <component-extension>
+          <component-tag-namespace>component</component-tag-namespace>
+          <component-taglib-uri>/GraficoLib</component-taglib-uri>
+        </component-extension>
+      </component>
+    </af:xmlContent>
+  </af:componentDef>
+  <!--oracle-jdev-comment:preferred-managed-bean-name:CompDecGraficoBean-->
+</jsp:root>
