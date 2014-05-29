@@ -5,6 +5,7 @@
 
 # Package Files #
 *.jar
+!/ViewController/lib/*.jar
 *.war
 *.ear
 
