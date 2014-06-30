@@ -46,6 +46,7 @@
                           maxFractionDigits="#{attrs.maxFractionDigitsY2}"/>
       </dvt:y2TickLabel>
       <!--<dvt:referenceObjectSet referenceObjectMap="#{attrs.referenceObjectMap}"/>-->
+      <dvt:y1Title text="#{attrs.tituloEjeY1}"/>
     </dvt:comboGraph>
     <af:commandButton text="#{viewcontrollerBundle.EXPORTAR_A} #{attrs.formatoSalida == 0 ? 'PDF' : 'PNG'}" id="dc_cb1" partialSubmit="true" visible="#{attrs.mostrarImprimir}"
                       rendered="#{attrs.descargaDirecta}">
@@ -67,6 +68,10 @@
         </attribute>
         <attribute>
           <attribute-name>subtitulo</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <attribute-name>tituloEjeY1</attribute-name>
           <attribute-class>java.lang.String</attribute-class>
         </attribute>
         <attribute>
@@ -236,6 +241,16 @@
           <description>Especifica si la exportación del fichero supondrá descarga (y borrado en el servidor) o no.</description>
           <attribute-name>descargaDirecta</attribute-name>
           <attribute-class>java.lang.Boolean</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica el array de tipos de markers por defecto para las series.</description>
+          <attribute-name>tipoMarkerSeriesSet</attribute-name>
+          <attribute-class>java.lang.String</attribute-class>
+        </attribute>
+        <attribute>
+          <description>Especifica el array de tipos de markers para las series.</description>
+          <attribute-name>arrayTipoMarkerSeries</attribute-name>
+          <attribute-class>oracle.jbo.domain.Array</attribute-class>
         </attribute>
         <component-extension>
           <component-tag-namespace>component</component-tag-namespace>

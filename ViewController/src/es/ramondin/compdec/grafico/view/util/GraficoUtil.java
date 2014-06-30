@@ -1,6 +1,5 @@
 package es.ramondin.compdec.grafico.view.util;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,11 +23,12 @@ import oracle.adf.view.faces.bi.component.graph.Y2TickLabel;
 
 import org.apache.commons.io.IOUtils;
 
-
 public class GraficoUtil {
     public static final Integer FORMATO_SALIDA_PDF = 0;
     public static final Integer FORMATO_SALIDA_PNG = 1;
-    
+    public static final String[] TEXTO_MARKERS_DEF = { "Norma", "No Aceptable", "Óptimo" };
+    public static final String[] COLOR_MARKERS_DEF = { "#0000ff", "#ff0000", "#00ff00" };
+
     public GraficoUtil() {
         super();
     }

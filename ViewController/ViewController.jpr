@@ -166,8 +166,12 @@
                </list>
             </hash>
             <hash n="archiveOptions">
-               <value n="hasManifest" v="false"/>
+               <list n="additionalManifests">
+                  <url path="../src/META-INF/MANIFEST.MF"/>
+               </list>
+               <value n="hasManifest" v="true"/>
             </hash>
+            <value n="contextRoot" v=""/>
             <url n="earURL" path="deploy/CompDecGrafico_ViewController_webapp1.ear"/>
             <value n="enterpriseAppName" v="CompDecGrafico_ViewController_webapp1"/>
             <hash n="fileGroups">
@@ -217,7 +221,7 @@
                   </hash>
                </list>
             </hash>
-            <url n="jarURL" path="deploy/CompDecGrafico_ViewController_webapp1.war"/>
+            <url n="jarURL" path="deploy/CompDecGrafico.war"/>
             <hash n="libraryDependencies">
                <value n="IncludeLibrariesFromOtherContainers" v="true"/>
             </hash>

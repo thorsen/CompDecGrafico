@@ -137,7 +137,7 @@ public class DvtContextCallBack implements ContextCallback {
                     */
     
                     /* Exportación a PDF con Apache FOP */
-                    convertFO2PDF(fileName + ".png", filePDF);
+                    convertFO2PDF(fileName + ".png", true, filePDF);
     
                     fosPDF.close();
     
@@ -162,7 +162,7 @@ public class DvtContextCallBack implements ContextCallback {
         }
     }
 
-    private void convertFO2PDF(String pngSource, File filePDF) throws FOPException, IOException {
+    private void convertFO2PDF(String pngSource, boolean imprimirLogo, File filePDF) throws FOPException, IOException {
         OutputStream out = null;
         FopFactory fopFactory = FopFactory.newInstance();
 
@@ -178,6 +178,7 @@ public class DvtContextCallBack implements ContextCallback {
 
             //Pasamos el parámetro con la ruta del fichero PNG
             transformer.setParameter("pngSource", pngSource);
+            transformer.setParameter("imprimirLogo", imprimirLogo);
             transformer.setParameter("txtSupIzq", this.textoEsquinaSupIzq);
             transformer.setParameter("txtSupDer", this.textoEsquinaSupDer);
             transformer.setParameter("txtInfIzq", this.textoEsquinaInfIzq);

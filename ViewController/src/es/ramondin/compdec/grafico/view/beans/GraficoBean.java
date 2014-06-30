@@ -35,9 +35,6 @@ import oracle.dss.graph.GraphConstants;
 public class GraficoBean {
     private UIGraph comboGraph;
 
-    private static final String[] TEXTO_MARKERS_DEF = new String[] { "No Aceptable", "Norma", "Óptimo" };
-    private static final String[] COLOR_MARKERS_DEF = new String[] { "#ff0000", "#0000ff", "#00ff00" };
-
     /**
      * Constructor
      */
@@ -60,11 +57,8 @@ public class GraficoBean {
 
         if (valorMarkers != null) {
             for (int i = 0; i < valorMarkers.length; i++) {
-                color =
-                        colorMarkers != null && colorMarkers.length - 1 >= i ? RmdColor.decode(colorMarkers[i]) : (COLOR_MARKERS_DEF.length - 1 >= i ? RmdColor.decode(COLOR_MARKERS_DEF[i]) :
-                                                                                                                  null);
-                texto =
-                        textoMarkers != null && textoMarkers.length - 1 >= i ? textoMarkers[i] : (TEXTO_MARKERS_DEF.length - 1 >= i ? TEXTO_MARKERS_DEF[i] : null);
+                color = colorMarkers != null && colorMarkers.length - 1 >= i && colorMarkers[i] != null ? RmdColor.decode(colorMarkers[i]) : (GraficoUtil.COLOR_MARKERS_DEF.length - 1 >= i ? RmdColor.decode(GraficoUtil.COLOR_MARKERS_DEF[i]) : null);
+                texto = textoMarkers != null && textoMarkers.length - 1 >= i ? textoMarkers[i] : (GraficoUtil.TEXTO_MARKERS_DEF.length - 1 >= i ? GraficoUtil.TEXTO_MARKERS_DEF[i] : null);
                 display = displayMarkers != null && displayMarkers.length - 1 >= i ? displayMarkers[i] : (texto != null ? true : false);
 
                 anadeMarker(referenceObjectMap, color, texto, valorMarkers[i], display);
@@ -191,7 +185,20 @@ public class GraficoBean {
 
         //Cargamos los markers
         cargaMarkers(referenceObjectMap);
+        
+        String tipoMarkerSeriesSet = (String)JSFUtils.resolveExpression("#{attrs.tipoMarkerSeriesSet}");
+        if (tipoMarkerSeriesSet != null)
+            this.comboGraph.getSeriesSet().setDefaultMarkerType(tipoMarkerSeriesSet);
 
+        String[] tipoMarkerSeries = (String[])JSFUtils.resolveExpression("#{attrs.arrayTipoMarkerSeries}");
+        if (tipoMarkerSeries != null)
+            for (int i = 0; i < this.comboGraph.getDataModel().getRowCount(); i++)
+                this.comboGraph.getSeriesSet().getSeries(i, true).setMarkerType(tipoMarkerSeries[(i % tipoMarkerSeries.length)]);
+
+//        for (int i = 0; i < this.comboGraph.getDataModel().getRowCount(); i++) {
+//          this.comboGraph.getSeriesSet().getSeries(i, true).setMarkerShape("MS_SQUARE");
+//        }
+        
         this.comboGraph.getReferenceObjectSet().setReferenceObjectMap(referenceObjectMap);
 
         this.comboGraph.setAutoLayout(GraphConstants.AL_NEVER);
